@@ -1,9 +1,16 @@
 session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
+
 intents:
 - greet
 - goodbye
+- out_of_scope
+- que_set_1
+- que_set_2
+- que_set_3
+- que_set_4
+- que_misc
 - affirm
 - deny
 - mood_great
@@ -11,9 +18,15 @@ intents:
 - inform
 - search_provider
 - thanks
+- get_name
+
 entities:
 - location
 - facility_type
+- test_center
+- case_number
+- username
+
 slots:
   address:
     type: unfeaturized
@@ -21,6 +34,9 @@ slots:
     type: text
   location:
     type: text
+  username:
+    type: unfeaturized
+
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -34,14 +50,20 @@ responses:
   utter_goodbye:
   - text: See you soon!
   utter_how_can_i_help:
-  - text: Hello. I am a medicare locator. I can help you find nearset hospital. How
-      can I help?
-  - text: Hi. My name is medicare locator. How can I help you today?
+  - text: Hello {username}. Hi! I am Covid19 assistant. I can help you find nearset hospital.
+      How can I help?
+  - text: Hi! I am Covid19 assistant. How can I help you today?
   utter_ask_location:
   - text: Can you provide your location please?
   - text: To find the nearest {facility_type} I need your location.
   utter_address:
   - text: The address is {address}.
+  utter_ask_username:
+  - text: Hello, what's your name?
+  utter_submit:
+  - text: Hello {username} from {location}. How may I help you?
+  utter_que_set_1:
+  - text: Coronaviruses are a family of viruses that range from the common cold to MERS coronavirus, which is Middle East Respiratory Syndrome coronavirus and SARs, Severe acute respiratory syndrome coronavirus. 
 actions:
 - utter_greet
 - utter_cheer_up
@@ -51,3 +73,9 @@ actions:
 - utter_how_can_i_help
 - utter_ask_location
 - action_facility_search
+- action_set_username
+- utter_address
+- utter_ask_username
+- utter_submit
+forms:
+- user_form
