@@ -1,16 +1,17 @@
-# Episode 6: Domain, custom actions and slots
-
+# COVID-19 interactive chatbot using Rasa
+This chatbot is developed using RASA Framework
 ---
-## What's in this episode?
+## What does this Robot is capable of?
+- answer basic questions on COVID-19 like what, when, how
+- capable of answering questions like nearest tesing centers
+- Can provide statistics based on states in India
+- can Provide information on serving hospitals
 
-In this episode we:
-- dived deeper into dialogue management with Rasa
-- covered the components like domain, custom actions and slots
-- updated the medicare locator assistant with simple custom action and slots
+## Database configured?
+MongoDB
+DB Name: covid19db
 
-## What do you need to follow this episode?
-
-This episode requires you to have Rasa installed on your machine:  
+This applicationrequires you to have Rasa installed on your machine:  
 ```pip3 install rasa-x --extra-index-url https://pypi.rasa.com/simple```
 
 In addition to this you need to install additional dependency to run Rasa on Jupyter 

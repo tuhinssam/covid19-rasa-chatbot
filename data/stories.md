@@ -18,7 +18,7 @@
   - utter_how_can_i_help
 * search_provider{"facility_type":"hospital"}
   - utter_ask_location
-* inform{"location":"San Francisco"}
+* inform{"location":"karnataka"}
   - action_facility_search
   - utter_address
 * thanks
@@ -29,6 +29,10 @@
   - utter_how_can_i_help
 * que-set-1
   - utter_que_set_1
+* que-set-1
+  - utter_que_set_1
+* que-set-2
+  - utter_que_set_2
 * thanks
   - utter_goodbye
 

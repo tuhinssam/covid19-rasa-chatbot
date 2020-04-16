@@ -1,7 +1,7 @@
 session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
-
+  
 intents:
 - greet
 - goodbye
@@ -26,6 +26,7 @@ entities:
 - test_center
 - case_number
 - username
+- name
 
 slots:
   address:
@@ -36,7 +37,6 @@ slots:
     type: text
   username:
     type: unfeaturized
-
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -50,8 +50,8 @@ responses:
   utter_goodbye:
   - text: See you soon!
   utter_how_can_i_help:
-  - text: Hello {username}. Hi! I am Covid19 assistant. I can help you find nearset hospital.
-      How can I help?
+  - text: Hello {username}. Hi! I am Covid19 assistant. I can help you find nearset
+      hospital. How can I help?
   - text: Hi! I am Covid19 assistant. How can I help you today?
   utter_ask_location:
   - text: Can you provide your location please?
@@ -63,7 +63,12 @@ responses:
   utter_submit:
   - text: Hello {username} from {location}. How may I help you?
   utter_que_set_1:
-  - text: Coronaviruses are a family of viruses that range from the common cold to MERS coronavirus, which is Middle East Respiratory Syndrome coronavirus and SARs, Severe acute respiratory syndrome coronavirus. 
+  - text: Coronaviruses are a family of viruses that range from the common cold to
+      MERS coronavirus, which is Middle East Respiratory Syndrome coronavirus and
+      SARs, Severe acute respiratory syndrome coronavirus.
+  utter_que_set_2:
+  - text: The most commin symptoms are- 1. cough 2. fever 3. tiredness 4. difficulty
+      breathing (severe cases)
 actions:
 - utter_greet
 - utter_cheer_up
@@ -77,5 +82,7 @@ actions:
 - utter_address
 - utter_ask_username
 - utter_submit
+- utter_que_set_1
+- utter_que_set_2
 forms:
 - user_form

@@ -13,6 +13,23 @@
 - hmm
 - ...
 
+## intent:thanks
+- Thanks
+- Thank you
+- Thank you so much
+- Thanks bot
+- Thanks for that
+- cheers
+- cheers bro
+- ok thanks!
+- perfect thank you
+- thanks a bunch for everything
+- thanks for the help
+- thanks a lot
+- amazing, thanks
+- cool, thanks
+- cool thank you
+
 ## intent:goodbye
 - bye! Stay home
 - byeee
@@ -60,15 +77,22 @@
 - can you help me to build a bot
 
 ## intent:que_set_1
+- coronavirus
 - what is coronavirus?
 - what is covid-19?
 - what is covid19?
+- covid-19
+- covid19
+- corona
 
 ## intent:que_set_2
-- what are the symptoms of covid-19?
+- symptoms of covid-19?
+- what are the symptoms
+- symptoms
 - coravirus symptoms
 - covid symptoms
 - how severe is covid-19
+- severity
 
 ## intent:que_set_3
 - what is the origin of coronavirus
@@ -81,6 +105,7 @@
 - how to stay protected from coronavirus?
 - what is lockdown?
 - what to do in lockdown?
+- lockdown rules
 
 ## intent:que_misc
 - can i oreder food online?
