@@ -8,7 +8,7 @@ pipeline:
 - name: "CRFEntityExtractor"
 - name: "EntitySynonymMapper"
 - name: "CountVectorsFeaturizer"
-- name: "EmbeddingIntentClassifier"
+- name: "DIETClassifier"
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
@@ -16,7 +16,7 @@ policies:
   - name: MemoizationPolicy
     max_history: 3
     priority: 3
-  - name: KerasPolicy
+  - name: TEDPolicy
     max_history: 3
     epochs: 200
   - name: FallbackPolicy
