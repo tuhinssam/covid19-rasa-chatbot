@@ -146,12 +146,12 @@
 - I need a [hospital](facility_type)
 - find me a nearby [hospital](facility_type)
 - [hospital](facility_type)
-- show me [test center](test_center)
-- [test center](test_center)
-- what is the nearby [test center](test_center)
-- [test center](test_center) near me
-- find me a nearby [test center](test_center) in [Bangalore](location)
-- I need [corona cases](case_number) count
+- show me [test center](facility_type)
+- [test center](facility_type)
+- what is the nearby [test center](facility_type)
+- [test center](facility_type) near me
+- find me a nearby [test center](facility_type) in [Bangalore](location)
+- I need [corona cases](facility_type) count
 - what is the [corona cases](case_number) number
 - [corona cases](case_number) number
 - [corona cases](case_number) count in [Bangalore](location)

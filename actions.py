@@ -30,7 +30,7 @@ class ActionFacilitySearch(Action):
         print("Tracked Facility: "+facility)
         print("Tracked Location: "+location)
 
-        address = "300 Hyde St, San Francisco"
+        address = "Bangalore Medical College & Research Institute, Fort, K.R. Road, Bangalore-560002"
         dispatcher.utter_message("Here is the address of the {} in {}: {}".format(facility, location, address))
 
         return [SlotSet("address", address)]

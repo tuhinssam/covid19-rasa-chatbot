@@ -4,7 +4,7 @@
   - form{"name": "user_form"}
   - form{"name": null}
   - utter_how_can_i_help
-* search_provider{"facility_type":"hospital", "location": "San Francisco"}
+* search_provider{"facility_type":"test center", "location": "bangalore"}
   - action_facility_search
   - utter_address
 * thanks
@@ -24,18 +24,15 @@
 * thanks
   - utter_goodbye
 
-## happy path 1
-* greet
-  - utter_how_can_i_help
-* que-set-1
+## que_set_1
+* que_set_1
   - utter_que_set_1
-* que-set-1
-  - utter_que_set_1
-* que-set-2
+## que_set_2
+* que_set_2
   - utter_que_set_2
+## thanks
 * thanks
   - utter_goodbye
-
 ## say goodbye
 * goodbye
   - utter_goodbye

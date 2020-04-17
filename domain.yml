@@ -1,7 +1,7 @@
 session_config:
   session_expiration_time: 0
   carry_over_slots_to_new_session: true
-  
+
 intents:
 - greet
 - goodbye
@@ -23,7 +23,6 @@ intents:
 entities:
 - location
 - facility_type
-- test_center
 - case_number
 - username
 - name
@@ -50,12 +49,11 @@ responses:
   utter_goodbye:
   - text: See you soon!
   utter_how_can_i_help:
+  - text: Hi! I am Covid19 assistant. I can give you basic information on COVID-19, test centers, hospital and basic statistics. 
   - text: Hello {username}. Hi! I am Covid19 assistant. I can help you find nearset
       hospital. How can I help?
-  - text: Hi! I am Covid19 assistant. How can I help you today?
   utter_ask_location:
   - text: Can you provide your location please?
-  - text: To find the nearest {facility_type} I need your location.
   utter_address:
   - text: The address is {address}.
   utter_ask_username:
