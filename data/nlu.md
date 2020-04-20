@@ -522,6 +522,12 @@
 - [corona cases](case_number) number
 - [corona cases](case_number) count in [Bangalore](location)
 - what is the current [case count](case_number) in [India](location)?
+- share me some [shelter homes](facility_type) address
+- [shelter home](facility_type) near me
+- [shelter home](facility_type) details
+- where can i get [free food](facility_type)?
+- organization is providing [free food](facility_type)?
+- [free food](facility_type) near me
 
 ## intent: get_name
 - My name is [Tuhin](name)

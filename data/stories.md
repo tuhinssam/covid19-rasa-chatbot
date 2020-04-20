@@ -1,28 +1,35 @@
-## hospital search happy path
+## default path
 * greet
+  - utter_how_can_i_help
   - user_form
   - form{"name": "user_form"}
   - form{"name": null}
-  - utter_how_can_i_help
-* search_provider{"facility_type":"test center", "location": "bangalore"}
+
+## facility type test center
+* search_provider{"facility_type":"test center"}
   - action_facility_search
   - utter_address
-* thanks
-  - utter_goodbye
 
-## hospital search + location
-* greet
-  - user_form
-  - form{"name": "user_form"}
-  - form{"name": null}
-  - utter_how_can_i_help
+## facility type hospital
 * search_provider{"facility_type":"hospital"}
   - utter_ask_location
-* inform{"location":"karnataka"}
+  - action_facility_search
+
+## facilty type Shelter
+* search_provider{"facility_type":"shelter homes"}
+  - utter_ask_location
   - action_facility_search
   - utter_address
-* thanks
-  - utter_goodbye
+
+## facilty type free food
+* search_provider{"facility_type":"free food"}
+  - utter_ask_location
+  - action_facility_search
+  - utter_address
+
+## inform statistics
+* search_provider{"facility_type":"corona cases"}
+  - utter_ask_location
 
 ## out_of_scope_story
 * out_of_scope

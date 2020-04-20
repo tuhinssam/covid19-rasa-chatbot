@@ -103,7 +103,27 @@ class ActionFacilitySearch(Action):
 
         return [SlotSet("address", address)]
 
-class FacilityForm(FormAction):
+class ActionGetStatistics(Action):
+
+    def name(self) -> Text:
+        return "action_get_statistics"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        return []
+
+class ActionSendEmail(Action):
+
+    def name(self) -> Text:
+        return "action_send_email"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        return []
+
+class UserForm(FormAction):
     """Custom form action to fill all slots required to find specific type
     of healthcare facilities in a certain city or zip code."""
 
@@ -114,11 +134,13 @@ class FacilityForm(FormAction):
     
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
-        return ["username","location"]
+        return ["username","emailid","mobilenumber","location"]
 
     def slot_mappings(self) -> Dict[Text, Any]:
         return {
              "username": [self.from_text(intent=None), self.from_text()],
+             "emailid": [self.from_text(intent=None), self.from_text()],
+             "mobilenumber": [self.from_text(intent=None), self.from_text()],
              "location": [self.from_entity(entity="location", intent="inform"), self.from_text()]
               }
 
@@ -130,6 +152,8 @@ class FacilityForm(FormAction):
         """Define what the form has to do
         after all required slots are filled"""
         print("username:"+ tracker.get_slot('username'))
+        print("emailid:"+ tracker.get_slot('emailid'))
+        print("mobilenumber:"+ tracker.get_slot('mobilenumber'))
         print("location:"+ tracker.get_slot('location'))
         #dispatcher.utter_message(template="utter_submit")
         return []

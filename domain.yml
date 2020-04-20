@@ -21,12 +21,14 @@ intents:
 - search_provider
 - thanks
 - get_name
+
 entities:
 - location
 - facility_type
 - case_number
 - username
 - name
+
 slots:
   address:
     type: unfeaturized
@@ -36,13 +38,22 @@ slots:
     type: text
   username:
     type: unfeaturized
+  emailid:
+    type: unfeaturized
+  mobilenumber:
+    type: unfeaturized
+
 responses:
   utter_address:
   - text: The address is {address}.
   utter_ask_location:
-  - text: Can you provide your location please?
+  - text: Please Provide your location?
   utter_ask_username:
-  - text: Hello, what's your name?
+  - text: Please enter your name?
+  utter_ask_email:
+  - text: Please enter your Email Id?
+  utter_ask_mobilenumber:
+  - text: Please enter your Mobile Number?
   utter_cheer_up:
   - image: https://i.imgur.com/nGF1K8f.jpg
     text: Here is something to cheer you up
@@ -131,11 +142,11 @@ responses:
   - text: Great carry on!
   utter_how_can_i_help:
   - text: Hi! I am Covid-19 assistant. I can give you basic information on COVID-19,
-      test centers, hospital and basic statistics.
+      test centers, hospital and statistics.
   - text: Hello {username}. Hi! I am Covid19 assistant. I can help you find nearset
       hospital. How can I help?
   utter_out_of_scope:
-  - text: Sorry I don't understand, can you repeat it again
+  - text: I wish I could answer your question, Please ask some other question please.
   - text: Sorry I don't know the answer, can you please ask questions related to COVID-19?
   utter_smalltalk_human:
   - text: Yes, I am a COVID-19 Assistant here to help you find answers.
@@ -153,8 +164,6 @@ actions:
 - utter_goodbye
 - utter_how_can_i_help
 - utter_ask_location
-- action_facility_search
-- action_set_username
 - utter_address
 - utter_ask_username
 - utter_submit
@@ -167,5 +176,11 @@ actions:
 - utter_faq_testing
 - utter_faq_supplies
 - utter_faq_whatisit
+- utter_ask_email
+- utter_ask_mobilenumber
+- action_set_username
+- action_facility_search
+- action_send_email
+- action_get_statistics
 forms:
 - user_form
