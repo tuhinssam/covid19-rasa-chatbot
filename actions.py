@@ -18,7 +18,7 @@ import pandas
 import requests
 import json
 
-conf_cases_by_dist= requests.get('https://api.covid19india.org/state_district_wise.json')
+cases_by_dist= requests.get('https://api.covid19india.org/state_district_wise.json')
 covid_facilities = requests.get('https://api.covid19india.org/resources/resources.json')
 df_conf = pandas.read_csv('http://api.covid19india.org/states_daily_csv/confirmed.csv')
 df_death = pandas.read_csv('https://api.covid19india.org/states_daily_csv/deceased.csv')
@@ -29,6 +29,13 @@ state_to_statecode = {"state_mappings":{'Total':'tt','Kerala':'kl', 'Delhi':'dl'
 
 facilities_json= covid_facilities.json()
 
+def get_dist_based_stat():
+    case_dict = {}
+    for state in cases_by_dist.json().keys():
+        for place, val in zip(cases_by_dist.json()[state]['districtData'].keys(), cases_by_dist.json()[state]['districtData'].values()):
+            case_dict[place] = {'confirmed':val['confirmed'], 'deceased':val['deceased'], 'recovered':val['recovered']}
+    return case_dict
+#***************************STATISTICS***********************************
 def get_death_count_by_state(state):
     stateval = state.title()
     statecode = (state_to_statecode['state_mappings'][stateval]).upper()
@@ -44,42 +51,65 @@ def get_recovered_count_by_state(state):
     statecode = (state_to_statecode['state_mappings'][stateval]).upper()
     return sum(df_recovered[statecode])
 
+
+#***************************FACILITIES***********************************
 def get_testcenters_by_state(state):
     facilities = []
     for res in facilities_json['resources']:
-        if res['category']== 'CoVID-19 Testing Lab' and res['state']== state.title():
+        if res['category'].lower() == 'CoVID-19 Testing Lab'.lower() and res['state'].lower() == state.lower():
             facilities.append(res['nameoftheorganisation']+", "+res['city']+", "+res['state']+", "+"Phone: "+res['phonenumber'])
     return facilities
 
 def get_hospitals_by_state(state):
     facilities = []
     for res in facilities_json['resources']:
-        if (res['category']== 'Hospitals and Centers' or res['category']== 'Hospitals and Centers') and res['state']== state.title():
+        if res['category'].lower() == 'hospitals and centers' and res['state'].lower()== state.lower():
             facilities.append(res['nameoftheorganisation']+", "+res['city']+", "+res['state']+", "+res['phonenumber'])
     return facilities
 
 def get_testcenters_by_city(city):
     facilities = []
     for res in facilities_json['resources']:
-        if res['category']== 'CoVID-19 Testing Lab' and res['city']== city.title():
+        if res['category'].lower() == 'CoVID-19 Testing Lab'.lower() and res['city'].lower() == city.lower():
             facilities.append(res['nameoftheorganisation']+", "+res['city']+", "+res['state']+", "+"Phone: "+res['phonenumber'])
+    return facilities
+
+def get_hospitals_by_city(city):
+    facilities = []
+    for res in facilities_json['resources']:
+        if res['category'].lower() == 'hospitals and centers' and res['city']== city.lower():
+            facilities.append(res['nameoftheorganisation']+", "+res['city']+", "+res['state']+", "+res['phonenumber'])
     return facilities
 
 def get_shelterhomes_by_city(city):
     facilities = []
     for res in facilities_json['resources']:
-        if res['category']== 'Accommodation and Shelter Homes' and res['city']== city.title():
+        if res['category'].lower()== 'accommodation and shelter homes' and res['city'].lower()== city.lower():
             facilities.append(res['nameoftheorganisation']+", "+res['city']+", "+res['state']+", "+"Phone: "+res['phonenumber'])
     return facilities 
 
-#Community Kitchen
+def get_shelterhomes_by_state(state):
+    facilities = []
+    for res in facilities_json['resources']:
+        if res['category'].lower()== 'accommodation and shelter homes' and res['state'].lower()== state.lower():
+            facilities.append(res['nameoftheorganisation']+", "+res['city']+", "+res['state']+", "+"Phone: "+res['phonenumber'])
+    return facilities 
+
 def get_freefoods_by_city(city):
     facilities = []
     for res in facilities_json['resources']:
-        if (res['category']== 'Free Food' or res['category']== 'Community Kitchen') and res['city']== city.title():
+        if (res['category'].lower() == 'free food' or res['category'].lower()== 'community Kitchen') and res['city'].lower()== city.lower():
             facilities.append(res['nameoftheorganisation']+", "+res['city']+", "+res['state']+", "+"Phone: "+res['phonenumber'])
     return facilities 
 
+def get_freefoods_by_state(state):
+    facilities = []
+    for res in facilities_json['resources']:
+        if (res['category'].lower() == 'free food' or res['category'].lower() == 'community kitchen') and res['state']== state.title():
+            facilities.append(res['nameoftheorganisation']+", "+res['city']+", "+res['state']+", "+"Phone: "+res['phonenumber'])
+    return facilities 
+
+#======================ACTION CLASSES============================
 class ActionFacilitySearch(Action):
 
     def name(self) -> Text:
@@ -94,14 +124,64 @@ class ActionFacilitySearch(Action):
 
         print("Tracked Facility: "+facility)
         print("Tracked Location: "+location)
+
+        if facility == "free food":
+            facilities_city = get_freefoods_by_city(location.title())
+            facilities_state = get_freefoods_by_state(location.title())
+            if len(facilities_city) != 0:
+                allfacilities = "\n".join(facilities_city)
+                dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
+            elif len(facilities_state) != 0:
+                allfacilities = "\n".join(facilities_state)
+                dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
+            else:
+                dispatcher.utter_message("No {} found in {}".format(facility,location))
+        
+        elif facility == "hospital":
+            facilities_state = get_hospitals_by_state(location.title())
+            facilities_city = get_hospitals_by_city(location.title())
+            if len(facilities_city) != 0:
+                allfacilities = "\n".join(facilities_city)
+                dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
+            elif len(facilities_state) != 0:
+                allfacilities = "\n".join(facilities_state)
+                dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
+            else:
+                dispatcher.utter_message("No {} found in {}".format(facility,location))
+        
+        elif facility == "test center":
+            facilities_city = get_testcenters_by_city(location.title())
+            facilities_state = get_testcenters_by_state(location.title())
+
+            if len(facilities_city) != 0:
+                allfacilities = "\n".join(facilities_city)
+                dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
+            elif len(facilities_state) != 0:
+                allfacilities = "\n".join(facilities_state)
+                dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
+            else:
+                dispatcher.utter_message("No {} found in {}".format(facility,location))
+        
+        if facility == "shelter home":
+            facilities_city = get_shelterhomes_by_city(location.title())
+            facilities_state = get_shelterhomes_by_state(location.title())
+            if len(facilities_city) != 0:
+                allfacilities = "\n".join(facilities_city)
+                dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
+            elif len(facilities_state) != 0:
+                allfacilities = "\n".join(facilities_state)
+                dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
+            else:
+                dispatcher.utter_message("No {} found in {}".format(facility,location))
+
         #code when location: location, zipcode: zip, facility_type: hospital
         #code when location: location, zipcode: zip, facility_type: test center
        
         #can write query here to retrieve data from database or APIs
-        address = "Bangalore Medical College & Research Institute, Fort, K.R. Road, Bangalore-560002"
-        dispatcher.utter_message("Here is the address of the {} in {}: {}".format(facility, location, address))
+        #address = "Bangalore Medical College & Research Institute, Fort, K.R. Road, Bangalore-560002"
+        #dispatcher.utter_message("Here is the address of the {} in {}: {}".format(facility, location, address))
 
-        return [SlotSet("address", address)]
+        return []
 
 class ActionGetStatistics(Action):
 
@@ -111,6 +191,15 @@ class ActionGetStatistics(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        location = tracker.get_slot("location")
+        #get confirmed, death and recovered count by district
+        cases_dict = get_dist_based_stat()
+
+        if location.title() in cases_dict.keys():
+          cases = cases_dict[location.title()]
+          dispatcher.utter_message("Here is the statistics for {}: \n Confirmed Cases: {} Deceased: {} Recovered: {}".format(location, cases['confirmed'], cases['deceased'], cases['recovered']))
+        else:
+          dispatcher.utter_message("Sorry! Location not found") 
         return []
 
 class ActionSendEmail(Action):

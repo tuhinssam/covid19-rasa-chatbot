@@ -27,9 +27,11 @@
   - action_facility_search
   - utter_address
 
-## inform statistics
+## facility statistics
 * search_provider{"facility_type":"corona cases"}
   - utter_ask_location
+  - action_get_statistics
+
 
 ## out_of_scope_story
 * out_of_scope
