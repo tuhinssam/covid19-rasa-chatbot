@@ -511,23 +511,26 @@
 ## intent:search_provider
 - I need a [hospital](facility_type)
 - find me a nearby [hospital](facility_type)
+- find me a nearby [hospital](facility_type)
 - [hospital](facility_type)
-- show me [test center](facility_type)
+- find me [test center](facility_type)
 - [test center](facility_type)
 - what is the nearby [test center](facility_type)
 - [test center](facility_type) near me
-- find me a nearby [test center](facility_type) in [Bangalore](location)
+- find me a nearby [test center](facility_type)
 - I need [corona cases](facility_type) count
-- what is the [corona cases](case_number) number
-- [corona cases](case_number) number
-- [corona cases](case_number) count in [Bangalore](location)
-- what is the current [case count](case_number) in [India](location)?
+- what is the [corona cases](facility_type) number
+- [corona cases](facility_type) number
+- [corona cases](facility_type) count
 - share me some [shelter homes](facility_type) address
 - [shelter home](facility_type) near me
 - [shelter home](facility_type) details
 - where can i get [free food](facility_type)?
 - organization is providing [free food](facility_type)?
 - [free food](facility_type) near me
+- [email](facility_type) me the details
+- send me the details in my [email](facility_type)
+- send me an [email](facility_type)
 
 ## intent: get_name
 - My name is [Tuhin](name)

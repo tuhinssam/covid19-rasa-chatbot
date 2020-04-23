@@ -4,15 +4,13 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/core/actions/#custom-actions/
 
-
-# This is a simple example for a custom action which utters "Hello World!"
-
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, FollowupAction
 from rasa_sdk.forms import FormAction
+from rasa_sdk.events import AllSlotsReset
 import smtplib
 import pandas
 import requests
@@ -23,6 +21,10 @@ covid_facilities = requests.get('https://api.covid19india.org/resources/resource
 df_conf = pandas.read_csv('http://api.covid19india.org/states_daily_csv/confirmed.csv')
 df_death = pandas.read_csv('https://api.covid19india.org/states_daily_csv/deceased.csv')
 df_recovered = pandas.read_csv('https://api.covid19india.org/states_daily_csv/recovered.csv')
+g_username = ""
+g_emailid = ""
+g_mobilenumber = ""
+g_location = ""
 
 statecode_to_state = {"state_mappings":{'tt':'Total','kl':'Kerala', 'dl':'Delhi','tg':'Telangana','rj':'Rajasthan','hr':'Haryana','up':'Uttar Pradesh','la':'Ladakh','tn':'Tamil Nadu','jk':'Jammu and Kashmir','ka':'Karnataka','mh':'Maharashtra','pb':'Punjab','ap':'Andhra Pradesh','ut':'Uttarakhand','or':'Odisha','py':'Puducherry','wb':'West Bengal','ch':'Chandigarh','ct':'Chhattisgarh','gj':'Gujarat','hp':'Himachal Pradesh','mp':'Madhya Pradesh','br':'Bihar','mn':'Manipur','mz':'Mizoram','ga':'Goa','an':'Andaman and Nicobar Islands','jh':'Jharkhand','as':'Assam','ar':'Arunachal Pradesh','tr':'Tripura','ml':'Meghalaya'}}
 state_to_statecode = {"state_mappings":{'Total':'tt','Kerala':'kl', 'Delhi':'dl','Telangana':'tg','Rajasthan':'rj','Haryana':'hr','Uttar Pradesh':'up','Ladakh':'la','Tamil Nadu':'tn','Jammu and Kashmir':'jk','Karnataka':'ka','Maharashtra':'mh','Punjab':'pb','Andhra Pradesh':'ap','Uttarakhand':'ut','Odisha':'or','Puducherry':'py','West Bengal':'wb','Chandigarh':'ch','Chhattisgarh':'ct','Gujarat':'gj','Himachal Pradesh':'hp','Madhya Pradesh':'mp','Bihar':'br','Manipur':'mn','Mizoram':'mz','Goa':'ga','Andaman and Nicobar Islands':'an','Jharkhand':'jh','Assam':'as','Arunachal Pradesh':'ar','Tripura':'tr','Meghalaya':'ml'}}
@@ -121,6 +123,12 @@ class ActionFacilitySearch(Action):
 
         facility = tracker.get_slot("facility_type")
         location = tracker.get_slot("location")
+        name = tracker.get_slot("username")
+        emailid = tracker.get_slot("emailid")
+
+        #location = 'bangalore'
+        #name = 'tuhin'
+        #emailid = 'tuhinssam@gmail.com'
 
         print("Tracked Facility: "+facility)
         print("Tracked Location: "+location)
@@ -137,7 +145,7 @@ class ActionFacilitySearch(Action):
             else:
                 dispatcher.utter_message("No {} found in {}".format(facility,location))
         
-        elif facility == "hospital":
+        if facility == "hospital":
             facilities_state = get_hospitals_by_state(location.title())
             facilities_city = get_hospitals_by_city(location.title())
             if len(facilities_city) != 0:
@@ -149,7 +157,7 @@ class ActionFacilitySearch(Action):
             else:
                 dispatcher.utter_message("No {} found in {}".format(facility,location))
         
-        elif facility == "test center":
+        if facility == "test center":
             facilities_city = get_testcenters_by_city(location.title())
             facilities_state = get_testcenters_by_state(location.title())
 
@@ -173,43 +181,37 @@ class ActionFacilitySearch(Action):
                 dispatcher.utter_message("Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities))
             else:
                 dispatcher.utter_message("No {} found in {}".format(facility,location))
+        if facility == "corona cases":
+            cases_dict = get_dist_based_stat()
+            if location.title() in cases_dict.keys():
+                cases = cases_dict[location.title()]
+                dispatcher.utter_message("Here is the statistics for {}: \n Confirmed Cases: {} Deceased: {} Recovered: {}".format(location, cases['confirmed'], cases['deceased'], cases['recovered']))
+            else:
+                dispatcher.utter_message("Sorry! Location not found")
+        if facility == "email": 
+            facilities_city = get_testcenters_by_city(location.title())
+            facilities_state = get_testcenters_by_state(location.title())
+            bodystr1 = ""
+            bodystr2 = ""
+            body = ""
+            if len(facilities_city) != 0:
+                allfacilities = "\n".join(facilities_city)
+                bodystr1 = "Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities)
+            elif len(facilities_state) != 0:
+                allfacilities = "\n".join(facilities_state)
+                bodystr1 = "Here is the address of the {} facilities in {}: {}".format(facility, location, allfacilities)
 
-        #code when location: location, zipcode: zip, facility_type: hospital
-        #code when location: location, zipcode: zip, facility_type: test center
-       
-        #can write query here to retrieve data from database or APIs
-        #address = "Bangalore Medical College & Research Institute, Fort, K.R. Road, Bangalore-560002"
-        #dispatcher.utter_message("Here is the address of the {} in {}: {}".format(facility, location, address))
-
-        return []
-
-class ActionGetStatistics(Action):
-
-    def name(self) -> Text:
-        return "action_get_statistics"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        location = tracker.get_slot("location")
-        #get confirmed, death and recovered count by district
-        cases_dict = get_dist_based_stat()
-
-        if location.title() in cases_dict.keys():
-          cases = cases_dict[location.title()]
-          dispatcher.utter_message("Here is the statistics for {}: \n Confirmed Cases: {} Deceased: {} Recovered: {}".format(location, cases['confirmed'], cases['deceased'], cases['recovered']))
-        else:
-          dispatcher.utter_message("Sorry! Location not found") 
-        return []
-
-class ActionSendEmail(Action):
-
-    def name(self) -> Text:
-        return "action_send_email"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            cases_dict = get_dist_based_stat()
+            if location.title() in cases_dict.keys():
+                cases = cases_dict[location.title()]
+                bodystr2 = "Here is the statistics for {}: \n Confirmed Cases: {} Deceased: {} Recovered: {}".format(location, cases['confirmed'], cases['deceased'], cases['recovered'])
+            else:
+                bodystr2 = "Sorry! Location not found"
+            
+            body = bodystr1 +"\n\n"+bodystr2
+            sendMail(emailid, name, body)
+            dispatcher.utter_message("email sent")
+            
         return []
 
 class UserForm(FormAction):
@@ -244,39 +246,24 @@ class UserForm(FormAction):
         print("emailid:"+ tracker.get_slot('emailid'))
         print("mobilenumber:"+ tracker.get_slot('mobilenumber'))
         print("location:"+ tracker.get_slot('location'))
-        #dispatcher.utter_message(template="utter_submit")
+        dispatcher.utter_message("Thank you for providing all the details! How may I help you?")
         return []
 
 
-# class ActionSetUsername(Action):
-
-#     def name(self) -> Text:
-#         return "action_set_username"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-#         name = tracker.latest_message.get('text')
-#         print("Tracked Name: "+name)
-#        # dispatcher.utter_message("Thank you {} for using our service".format(name))
-#         return [SlotSet("intent_message", name)]
-
-def sendMail(body):
-    # creates SMTP session 
+def sendMail(emailid, name, body):
     s = smtplib.SMTP('smtp.gmail.com', 587) 
   
     # start TLS for security 
     s.starttls() 
   
     # Authentication 
-    s.login("tuhinssamanta@gmail.com", "#########") 
-  
+    s.login("tuhinssamanta@gmail.com", "Samanta123#") 
+
     # message to be sent 
-    message = body
-  
+    text = "Dear "+name+",\n\n"+"Please find the required details:\n"+ body + "\n\n"+"Thanks and Regards\n -Covid-19 Assistant\nStay Home, Stay Safe"
+    subject = "Covid19 assistant summary"
+    message = 'Subject: {}\n\n{}'.format(subject, text) 
     # sending the mail 
-    s.sendmail("tuhinssamanta@gmail.com", "tuhinssamanta@gmail.com", message) 
-  
+    s.sendmail("tuhinssamanta@gmail.com", emailid, message)
     # terminating the session 
-    s.quit() 
+    s.quit()  

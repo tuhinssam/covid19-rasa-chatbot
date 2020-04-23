@@ -25,7 +25,8 @@ intents:
 entities:
 - location
 - facility_type
-- case_number
+- emailid
+- mobilenumber
 - username
 - name
 
@@ -49,7 +50,7 @@ responses:
   utter_ask_location:
   - text: Please Provide your location?
   utter_ask_username:
-  - text: Please enter your name?
+  - text: Please enter your name (Enter) and email id (Enter)?
   utter_ask_email:
   - text: Please enter your Email Id?
   utter_ask_mobilenumber:
@@ -143,8 +144,6 @@ responses:
   utter_how_can_i_help:
   - text: Hi! I am Covid-19 assistant. I can give you basic information on COVID-19,
       test centers, hospital and statistics.
-  - text: Hello {username}. Hi! I am Covid19 assistant. I can help you find nearset
-      hospital. How can I help?
   utter_out_of_scope:
   - text: I wish I could answer your question, Please ask some other question please.
   - text: Sorry I don't know the answer, can you please ask questions related to COVID-19?
@@ -155,6 +154,8 @@ responses:
   - text: Hello {username} from {location}. How may I help you?
   utter_thanks:
   - text: You are wellcome!
+  utter_form_thanks:
+  - text: Thank you for the details! How may I help you?
 actions:
 - utter_greet
 - utter_cheer_up
@@ -180,7 +181,5 @@ actions:
 - utter_ask_mobilenumber
 - action_set_username
 - action_facility_search
-- action_send_email
-- action_get_statistics
 forms:
 - user_form

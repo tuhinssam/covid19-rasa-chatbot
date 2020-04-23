@@ -4,34 +4,32 @@
   - user_form
   - form{"name": "user_form"}
   - form{"name": null}
+* search_provider{"facility_type":"test center"}
+  - action_facility_search
 
 ## facility type test center
 * search_provider{"facility_type":"test center"}
   - action_facility_search
-  - utter_address
 
 ## facility type hospital
 * search_provider{"facility_type":"hospital"}
-  - utter_ask_location
   - action_facility_search
 
 ## facilty type Shelter
 * search_provider{"facility_type":"shelter homes"}
-  - utter_ask_location
   - action_facility_search
-  - utter_address
 
 ## facilty type free food
 * search_provider{"facility_type":"free food"}
-  - utter_ask_location
   - action_facility_search
-  - utter_address
 
 ## facility statistics
 * search_provider{"facility_type":"corona cases"}
-  - utter_ask_location
-  - action_get_statistics
+  - action_facility_search
 
+## facility email
+* search_provider{"facility_type":"email"}
+  - action_facility_search
 
 ## out_of_scope_story
 * out_of_scope
