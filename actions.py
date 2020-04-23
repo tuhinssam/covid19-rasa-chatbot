@@ -37,7 +37,7 @@ def get_dist_based_stat():
         for place, val in zip(cases_by_dist.json()[state]['districtData'].keys(), cases_by_dist.json()[state]['districtData'].values()):
             case_dict[place] = {'confirmed':val['confirmed'], 'deceased':val['deceased'], 'recovered':val['recovered']}
     return case_dict
-    
+
 #***************************STATISTICS***********************************
 def get_death_count_by_state(state):
     stateval = state.title()
@@ -264,8 +264,8 @@ def sendMail(emailid, name, body):
     # start TLS for security 
     s.starttls() 
   
-    # Authentication 
-    s.login("tuhinssamanta@gmail.com", "Samanta123#") 
+    # Authentication password needs to be added to run the code
+    s.login("tuhinssamanta@gmail.com", "######") 
 
     # message to be sent 
     text = "Dear "+name+",\n\n"+"Please find the required details:\n"+ body + "\n\n"+"Thanks and Regards\n -Covid-19 Assistant\nStay Home, Stay Safe"
