@@ -1,6 +1,6 @@
 # Documentation for Covid19-assist-bot
 
-# COVID-19 interactive chatbot using Rasa
+## covid19-assist-bot interactive chatbot using Rasa
 This chatbot is developed using RASA Framework. 
 
 ## Why Rasa?
