@@ -1,7 +1,12 @@
 # Documentation for Covid19-assist-bot
 
-# COVID-19 interactive chatbot using Rasa
+## covid19-assist-bot interactive chatbot using Rasa
 This chatbot is developed using RASA Framework. 
+
+## Why Rasa?
+Rasa is an open source framework to develop assistant or chatbot. The most important difference between other chantbot frameworks like Google DialogFlow, MS LUIS and Rasa it that, in Rasa all the development, training and testing in Rasa can be done locally and data remains private to the organization or the user. You can select your model to train the data, make alterations if you are not satisfied with the result. In DialogFlow, LUIS all the development/training/testing is done in the provider's cloud environment. So you have to completely trust the provider about the data.
+
+The downside of using Rasa is that, to develop assistant, one must have coding knowledge and understanding on the concepts of NLP (Natural Language Processing) 
 
 ## What does this Robot is capable of?
 - answer basic questions on COVID-19 like what, when, how, additionally it can handle smalltalk, chit-chat
@@ -9,6 +14,14 @@ This chatbot is developed using RASA Framework.
 - Can provide statistics based on districts or states in India
 - Send mail to the user with all the details
 - stores entire chat in MongoDB database
+
+## Architecture
+
+USER-->INTENT
+INTENT--> STORY <-- UTTERENCE
+  |            
+ENTITY
+INTENT--> STORY <--> CUSTOM ACTIONS & FORMS --> EXTERNAL API|DATABASE
 
 ## Database Being Used
 MongoDB
