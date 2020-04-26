@@ -76,8 +76,10 @@ all codes are available in GitHub Page: https://github.com/tuhinssam/covid19-ras
 
 # Setup secret key and other configurations for integration with slack, facebook, telegram
 Telegram integration: https://chatbotslife.com/full-tutorial-on-how-to-create-and-deploy-a-telegram-bot-using-python-69c6781a8c8f
- 
-
+Slack integration:  
+ - train model: rasa train
+ - train nlu: rasa train nlu
+ - test interactive mode: rasa shell
  - run rasa using: rasa run
  - run actions server: rasa run actions
 
