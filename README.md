@@ -61,3 +61,25 @@ policies:
 
 ## Source Code GitHub Link:
 all codes are available in GitHub Page: https://github.com/tuhinssam/covid19-rasa-chatbot
+
+## How to run the project
+ # create a virtual environment
+ - pip install virtualenv
+ - virtualenv rasavenv
+ - activate the virtual environment: rasavenv/Scripts/Activate
+ move to the virtual environment
+ 
+ # install all the dependencies
+ copy the requirements.txt in a folder
+ install dependencies using following command:
+ - pip install -r "requirements.txt" 
+
+# Setup secret key and other configurations for integration with slack, facebook, telegram
+Telegram integration: https://chatbotslife.com/full-tutorial-on-how-to-create-and-deploy-a-telegram-bot-using-python-69c6781a8c8f
+ 
+
+ - run rasa using: rasa run
+ - run actions server: rasa run actions
+
+
+
