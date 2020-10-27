@@ -22,7 +22,7 @@ colorclass==2.2.0
 coloredlogs==10.0
 colorhash==1.0.2
 ConfigArgParse==0.13.0
-cryptography==2.9
+cryptography==3.2
 cycler==0.10.0
 cymem==2.0.3
 decorator==4.4.2
