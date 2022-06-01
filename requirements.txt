@@ -49,7 +49,7 @@ hpack==3.0.0
 hstspreload==2020.4.7
 httplib2==0.17.1
 httptools==0.1.1
-httpx==0.9.3
+httpx==0.23.0
 humanfriendly==8.1
 hyperframe==5.2.0
 idna==2.9
